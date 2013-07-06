@@ -18,15 +18,15 @@ end
 netrc_template = File.read "#{File.join(File.dirname(__FILE__), '..', 'support', 'netrc')}"
 
 ##
-# Supply `curl` on the BUILD machine (not in slug) with token to access private Github repos
-File.open "#{ENV['HOME']}/.netrc", "w+", 0600 do |f|
+# Supply `curl` on the slug with token to access private Github repos
+File.open "#{build_dir}/.netrc", "w+", 0600 do |f|
   # The ../support/netrc template relies on the `github_token` variable above
   f.puts ERB.new(netrc_template).result
 end
 
 ##
-# Tell `curl` on the BUILD machine (not in slug) to use ~/.netrc
-File.open "#{ENV['HOME']}/.curlrc", "w+", 0600 do |f|
+# Tell `curl` on the slug to use ~/.netrc
+File.open "#{build_dir}/.curlrc", "w+", 0600 do |f|
   f.puts "--netrc-optional"
 end
 
